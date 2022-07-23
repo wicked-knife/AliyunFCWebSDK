@@ -5,8 +5,11 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf lib/*",
     "build:esm": "webpack --mode=production --node-env=production --env type=esm",
     "build:window": "webpack --mode=production --node-env=production --env type=window",
+    "build:types": "tsc",
+    "build": "npm run clean && npm run build:esm && npm run build:window && npm run build:types",
     "watch": "webpack --watch",
     "serve": "webpack serve --mode=development --node-env=development"
   },
@@ -21,12 +24,18 @@
   },
   "homepage": "https://github.com/wicked-knife/AliyunFCWebSDK#readme",
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@webpack-cli/generators": "^2.5.0",
     "esbuild-loader": "^2.19.0",
     "html-webpack-plugin": "^5.5.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "crypto-js": "^4.1.1"
   }
 }
