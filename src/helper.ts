@@ -39,7 +39,7 @@ function buildCanonicalHeaders(headers: Headers, prefix: string) {
 export function composeStringToSign(method: ValidMethod, path: string, headers: Headers, queries: QueryParams) {
   const contentMD5 = headers['content-md5'] || '';
   const contentType = headers['content-type'] || headers['Content-Type'] || '';
-  const date = headers['date'];
+  const date = headers['x-fc-date'] || '';
   const signHeaders = buildCanonicalHeaders(headers, 'x-fc-');
   const A = document.createElement('a');
   A.href = path;
@@ -62,6 +62,8 @@ export function composeStringToSign(method: ValidMethod, path: string, headers: 
     });
     params.sort();
     str += '\n' + params.join('\n');
+  } else {
+    str += '\n';
   }
   return str;
 }
