@@ -1,4 +1,5 @@
-import CryptoJS from "crypto-js";
+import HmacSHA256 from "crypto-js/hmac-sha256";
+import Base64 from "crypto-js/enc-base64";
 
 export type QueryParams = { [key: string]: string | number | string[] | number[] };
 
@@ -7,7 +8,7 @@ export type ValidMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 export type Headers = {[key: string]: string};
 
 function signString(source: string, secret: string) {
-  return CryptoJS.HmacSHA256(source, secret).toString(CryptoJS.enc.Base64);
+  return HmacSHA256(source, secret).toString(Base64);
 }
 
 function buildCanonicalHeaders(headers: Headers, prefix: string) {
@@ -69,7 +70,7 @@ export function composeStringToSign(method: ValidMethod, path: string, headers: 
 }
 
 export function getSignature(accessKeyID: string, accessKeySecret: string, method: ValidMethod, path: string, headers: Headers, queries: QueryParams) {
-  var stringToSign = composeStringToSign(method, path, headers, queries);
+  var stringToSign = composeStringToSign(method.toUpperCase() as ValidMethod, path, headers, queries);
   var sign = signString(stringToSign, accessKeySecret);
   return `FC ${accessKeyID}:${sign}`;
 }

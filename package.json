@@ -2,7 +2,8 @@
   "name": "@chongho/aliyun_fc_web_sdk",
   "version": "1.0.0",
   "description": "Aliyun FC Web SDK",
-  "main": "lib/index.js",
+  "files": ["lib/*"],
+  "browser": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf lib/*",

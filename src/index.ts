@@ -2,6 +2,8 @@ import { ValidMethod, Headers, QueryParams, getSignature} from "./helper";
 interface IClient {
   accessKeyID: string;
   accessKeySecret: string;
+
+  getSignedHeaders: InstanceType<typeof Client>['getSignedHeaders'];
 }
 
 class Client implements IClient {
@@ -27,10 +29,9 @@ class Client implements IClient {
   }
 
   getSignedHeaders(method: ValidMethod, path: string, queries: QueryParams) {
-    const headers = {
+    const headers: Headers = {
       'x-fc-date': (new Date).toUTCString(),
       "content-type": "application/json",
-      "authorization": ''
     };
 
     const sign =  getSignature(this.accessKeyID, this.accessKeySecret, method, path, headers, queries);
