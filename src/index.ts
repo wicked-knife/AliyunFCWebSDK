@@ -26,8 +26,18 @@ class Client implements IClient {
     this.accessKeySecret = accessKeySecret;
   }
 
-  getSignature(method: ValidMethod, path: string, headers: Headers, queries: QueryParams) {
-    return getSignature(this.accessKeyID, this.accessKeySecret, method, path, headers, queries);
+  getSignedHeaders(method: ValidMethod, path: string, queries: QueryParams) {
+    const headers = {
+      'x-fc-date': (new Date).toUTCString(),
+      "content-type": "application/json",
+      "authorization": ''
+    };
+
+    const sign =  getSignature(this.accessKeyID, this.accessKeySecret, method, path, headers, queries);
+
+    headers.authorization = sign;
+
+    return headers
   }
 }
 
