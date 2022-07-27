@@ -4,6 +4,11 @@ interface IClient {
   accessKeySecret: string;
 
   getSignedHeaders: InstanceType<typeof Client>['getSignedHeaders'];
+  request: typeof fetch
+  get: InstanceType<typeof Client>['get'];
+  post: InstanceType<typeof Client>['post'];
+  put: InstanceType<typeof Client>['put'];
+  delete: InstanceType<typeof Client>['delete'];
 }
 
 class Client implements IClient {
@@ -39,6 +44,30 @@ class Client implements IClient {
     headers.authorization = sign;
 
     return headers
+  }
+
+  request(input: RequestInfo, init?: RequestInit) {
+    // check fetch support
+    if (!fetch) {
+      throw new Error('fetch is not supported');
+    }
+    return fetch(input, init);
+  }
+
+  post(input: RequestInfo, init?: Omit<RequestInit, 'method'>){
+    return this.request(input, {...init, method: 'POST'})
+  }
+
+  get(input: RequestInfo, init?: Omit<RequestInit, 'method'>){
+    return this.request(input, {...init, method: 'GET'})
+  }
+
+  put(input: RequestInfo, init?: Omit<RequestInit, 'method'>){
+    return this.request(input, {...init, method: 'PUT'})
+  }
+
+  delete(input: RequestInfo, init?: Omit<RequestInit, 'method'>){
+    return this.request(input, {...init, method: 'DELETE'})
   }
 }
 
