@@ -1,6 +1,6 @@
 {
   "name": "@chongho/aliyun_fc_web_sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Aliyun FC Web SDK",
   "files": ["lib/*"],
   "browser": "lib/index.js",
