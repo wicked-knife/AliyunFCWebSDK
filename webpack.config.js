@@ -8,6 +8,13 @@ const commonConfig = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        loader: "esbuild-loader",
+        options: {
+          target: "es2015", // Syntax to compile to (see options below for possible values)
+        },
+      },
+      {
         test: /\.ts$/,
         loader: "esbuild-loader",
         options: {
