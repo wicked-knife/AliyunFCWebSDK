@@ -51,7 +51,17 @@ class Client implements IClient {
     if (!fetch) {
       throw new Error('fetch is not supported');
     }
-    return fetch(input, init);
+    const signedInit = init || {};
+    // auto add signed headers
+    if(this.accessKeySecret) {
+      const method = typeof input === 'string' ? 'GET' : input.method;
+      const url = new URL(typeof input === 'string' ? input : input.url);
+      const path = url.pathname;
+      const queries = Object.fromEntries(url.searchParams.entries());
+      const signedHeaders = this.getSignedHeaders(method as ValidMethod, path, queries);
+      signedInit.headers = {...signedInit.headers, ...signedHeaders};
+    }
+    return fetch(input, signedInit);
   }
 
   post(input: RequestInfo, init?: Omit<RequestInit, 'method'>){

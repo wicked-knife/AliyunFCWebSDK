@@ -7,6 +7,4 @@ const client = new Client({
 
 const signedHeaders = client.getSignedHeaders('get', '/')
 
-client.get('<your FC http trigger URL>', {
-  headers: signedHeaders,
-})
+client.get('<your FC http trigger URL>')

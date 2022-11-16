@@ -21,7 +21,12 @@ const client = new Client({
 
 const signedHeaders = client.getSignedHeaders('get', '<your FC path>')
 
-client.get('<your FC http trigger URL>', {
-  headers: signedHeaders,
+// use SDK send request
+client.get('<your FC http trigger URL>')
+
+// use custom request lib send request
+fetch('<your FC http trigger URL>', {
+  method: 'get',
+  headers: signedHeaders
 })
 ```
